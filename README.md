@@ -1,2 +1,8 @@
 # CodeFuson_web
-test
+
+## Run project
+`python manage.py runserver `
+
+## Pages:
+
+- admin
