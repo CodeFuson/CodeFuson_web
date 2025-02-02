@@ -1,0 +1,17 @@
+.profileList {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.profileList h1 {
+    color: darkblue;
+}
+
+.profileList ul {
+    list-style-type: none;
+}
+
+.profileList li {
+    padding: 5px 0;
+}
