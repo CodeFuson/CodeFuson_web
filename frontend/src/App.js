@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import ProfileList from './components/ProfileList/ProfileList';
 
 function App() {
   return (
