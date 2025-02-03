@@ -1,11 +1,15 @@
+// src/App.js
 import React from 'react';
-import HomePage from './components/HomePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/HomePage';  // Győződj meg róla, hogy a Home.js itt van
 
 function App() {
   return (
-    <div className="App">
-      <HomePage />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />  {/* Home oldal renderelése */}
+      </Routes>
+    </Router>
   );
 }
 

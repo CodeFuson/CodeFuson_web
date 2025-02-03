@@ -1,10 +1,17 @@
 # CodeFuson_web
 
 ## Run project
+Run Django:
 `python manage.py runserver `
 
-npm run build
-npm start
+Run React:
+`npm start`
+
+Build docker:
+`docker-compose up --build`
+
+Run docker:
+`docker-compose up`
 
 ## Pages:
 

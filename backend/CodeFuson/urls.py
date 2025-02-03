@@ -17,11 +17,11 @@ Including another URLconf
 # CodeFuson/urls.py
 from django.contrib import admin
 from django.urls import path
-from .views import home  # importáljuk a home nézetet
+# from .views import   # importáljuk a home nézetet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', home, name='home'),
+    # path("api/message/", get_message, name="get_message"),
 ]
 
 
