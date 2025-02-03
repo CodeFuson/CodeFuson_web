@@ -78,7 +78,7 @@ WSGI_APPLICATION = "CodeFuson.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'codefusion_db',  # Name of your PostgreSQL database
+        'NAME': 'codefuson_db',  # Name of your PostgreSQL database
         'USER': 'postgres',  # Database username
         'PASSWORD': 'postgres',  # Database password
         'HOST': 'localhost',  # Database host (usually localhost)
