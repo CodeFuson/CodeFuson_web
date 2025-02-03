@@ -9,8 +9,8 @@ Run React:
 
 Generate requirements:
 
-    -Navigate backend
-    -pip freeze > requirements.**txt**
+    `cd backend` 
+    `pip freeze > requirements.txt`
 
 Build docker:
 `docker-compose up --build` or `docker compose up --build`
