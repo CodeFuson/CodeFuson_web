@@ -21,7 +21,7 @@ from .views import home  # importáljuk a home nézetet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  # Ez a kezdőlap URL-je (root)
+    # path('', home, name='home'),
 ]
 
 
