@@ -8,10 +8,10 @@ Run React:
 `npm start`
 
 Build docker:
-`docker-compose up --build`
+`docker-compose up --build` or `docker compose up --build`
 
 Run docker:
-`docker-compose up`
+`docker-compose up` or `docker compose up --build`
 
 ## Pages:
 
