@@ -7,6 +7,12 @@ Run Django:
 Run React:
 `npm start`
 
+Generate requirements:
+
+    -Navigate backend
+    -pip freeze > requirements.txt
+
+
 Build docker:
 `docker-compose up --build`
 
