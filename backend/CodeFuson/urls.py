@@ -1,5 +1,5 @@
 """
-URL configuration for CodeFusion project.
+URL configuration for CodeFuson project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -14,9 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# CodeFuson/urls.py
 from django.contrib import admin
 from django.urls import path
+# from .views import   # importáljuk a home nézetet
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    # path("api/message/", get_message, name="get_message"),
 ]
+
+
+
+
