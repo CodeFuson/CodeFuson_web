@@ -11,7 +11,7 @@ SECRET_KEY = "django-insecure-y%yhg9a=7!5t3yb(a+@266bqe%+2@rf++f9e-o$pjt0dk&yv%%
 DEBUG = True
 
 # ALLOWED_HOSTS specifies which host/domain names are valid for your site.
-ALLOWED_HOSTS = []  # Allow all hosts by default, modify as needed
+ALLOWED_HOSTS = []  # Allow all hosts by default, modify as neededai_generator
 
 # List of installed Django apps, including third-party apps like Django REST framework and CORS handling
 INSTALLED_APPS = [
@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",  # Static files handling
     'rest_framework',  # Django REST framework for building APIs
     'corsheaders',  # CORS middleware for React frontend integration
+    'ai_generator'
 ]
 
 # Middleware is a list of middleware components to process requests and responses.
@@ -127,5 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # CORS configuration to ensure your frontend can make requests to your Django backend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React frontend development server URL
+    "http://localhost:8000",
 ]
-CORS_ORIGIN_ALLOW_ALL = False   # Disable this in production for better security
+
+CORS_ORIGIN_ALLOW_ALL = True   # Disable this in production for better security

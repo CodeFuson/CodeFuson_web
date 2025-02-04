@@ -25,4 +25,9 @@ frontend/yarn-error.log*
 .idea
 
 .venv
+
 backend/requirements.txt
+
+projects
+
+.env
