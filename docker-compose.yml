@@ -4,6 +4,7 @@ services:
   backend:
     build:
       context: ./backend
+      dockerfile: docker/Dockerfile  # Itt adod meg a pontos elérési utat!
     volumes:
       - ./frontend/build:/app/frontend/build
     ports:
@@ -14,6 +15,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: docker/Dockerfile  # Itt is pontosítsd az útvonalat!
     volumes:
       - ./frontend:/app
     ports:
