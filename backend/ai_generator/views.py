@@ -1,26 +1,28 @@
-from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework import status
+# backend/views.py
 
-@api_view(['POST', 'GET'])
-@parser_classes([JSONParser])
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .main import main
+
+@csrf_exempt
 def generate_code(request):
-    if request.method == 'POST':
-        if not request.data:
-            return Response(
-                {"error": "Request body is empty or not valid JSON"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        prompt = request.data.get('prompt')
-    elif request.method == 'GET':
-        prompt = request.query_params.get('prompt')
+    if request.method == "POST":
+        try:
 
-    if prompt:
-        generated_code = f"Generated code based on: {prompt}"
-        return Response({"code": generated_code}, status=status.HTTP_200_OK)
+            body = json.loads(request.body)
+            prompt = body.get("prompt", "")
+
+
+            generated_code = main(prompt)
+
+
+            return JsonResponse({"generated_code": generated_code}, status=200)
+
+        except Exception as e:
+
+            return JsonResponse({"error": str(e)}, status=400)
+
+
     else:
-        return Response(
-            {"error": "Missing 'prompt' field in the request"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return JsonResponse({"message": "Only POST method is allowed."}, status=405)

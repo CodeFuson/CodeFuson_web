@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import generate_code
+from . import views
 
 urlpatterns = [
-    path('generate-code/', generate_code, name='generate_code'),
+    path('api/ai/generate-code/', views.generate_code, name='generate_code'),
+
 ]
