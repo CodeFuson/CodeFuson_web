@@ -3,6 +3,7 @@ from .prompt_generator import generate_prompt
 
 
 def generate_code_from_ai(prompt: str, faiss_index, api_key: str, base_url: str) -> str:
+
     client = OpenAI(api_key=api_key, base_url=base_url)
     full_prompt = generate_prompt(prompt, faiss_index)
 

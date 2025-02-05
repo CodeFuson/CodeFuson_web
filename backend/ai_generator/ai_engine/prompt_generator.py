@@ -1,4 +1,5 @@
 def generate_prompt(prompt: str, faiss_index) -> str:
+
     query = faiss_index.similarity_search(prompt, k=3)
     relevant_components = "\n".join([doc.page_content for doc in query])
 

@@ -1,12 +1,14 @@
 import os
-from ai_engine.faiss_index import load_components_to_faiss
-from ai_engine.prompt_generator import generate_prompt
-from ai_engine.ai_client import generate_code_from_ai
+from dotenv import load_dotenv
 
+load_dotenv()
+
+from .ai_engine.faiss_index import load_components_to_faiss
+from .ai_engine.prompt_generator import generate_prompt
+from .ai_engine.ai_client import generate_code_from_ai
 
 def save_generated_project(generated_code):
     projects_dir = os.path.join(os.getcwd(), "..", "projects")
-
     if not os.path.exists(projects_dir):
         os.makedirs(projects_dir)
 
@@ -15,7 +17,6 @@ def save_generated_project(generated_code):
     next_project_number = len(existing_projects) + 1
     project_folder_name = f"{next_project_number}_Projekt"
     project_path = os.path.join(projects_dir, project_folder_name)
-
     os.makedirs(project_path, exist_ok=True)
 
     output_file = os.path.join(project_path, "generated_code.py")
@@ -27,24 +28,24 @@ def save_generated_project(generated_code):
 
 
 def main(prompt):
-
-    component_directories = ["./components"]  # A 'components' mappa a projekt gyökérében van
+    component_directories = ["../components"]
     index_name = "components_index"
 
     api_key = os.getenv("OPENAI_API_KEY")
-    base_url = "https://api.deepseek.com"
+
+    base_url = "https://api.openai.com"
 
     try:
         faiss_index = load_components_to_faiss(component_directories, index_name)
-
         full_prompt = generate_prompt(prompt, faiss_index)
+        print("Generated Prompt:")
+        print(full_prompt)
 
         generated_code = generate_code_from_ai(prompt, faiss_index, api_key, base_url)
         print("Generated Code:")
         print(generated_code)
 
         save_generated_project(generated_code)
-
         return generated_code
 
     except Exception as e:
