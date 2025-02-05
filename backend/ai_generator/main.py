@@ -28,12 +28,12 @@ def save_generated_project(generated_code):
 
 
 def main(prompt):
-    component_directories = ["../components"]
+    component_directories = ["./components"]
     index_name = "components_index"
 
     api_key = os.getenv("OPENAI_API_KEY")
 
-    base_url = "https://api.openai.com"
+    base_url = "https://api.deepseek.com"
 
     try:
         faiss_index = load_components_to_faiss(component_directories, index_name)
