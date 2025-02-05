@@ -1,46 +1,73 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import '../assets/home_page.css';
 
+const API_ENDPOINT = 'http://localhost:8000/api/ai/generate-code/';
+
 const HomePage = () => {
-    const [message, setMessage] = useState('');
-    const [response, setResponse] = useState('');
+  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const handleKeyPress = async (e) => {
-        if (e.key === 'Enter' && message.trim()) {
-            try {
-                const result = await axios.post('http://localhost:8000/api/generate-code/',
-                    {prompt: message},
-                    {headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken}}
-                );
-                setResponse(result.data.code);
-                setMessage('');
-            } catch (error) {
-                console.error('Axios hiba:', error.response?.data || error.message);
-                setResponse('Hiba történt a kérés feldolgozása során');
-            }
-        }
-    };
+  const sendMessage = useCallback(async () => {
+    if (!message.trim()) {
+      setError('Please enter a valid message.');
+      return;
+    }
 
-    return (
-        <div className="chat-container">
-            <input
-                type="text"
-                className="chat-input"
-                placeholder="Type your message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyPress}
-            />
+    setIsLoading(true);
+    setError(null);
+    try {
+      console.log('Sending data:', { prompt: message });
+      const result = await axios.post(
+        API_ENDPOINT,
+        { prompt: message },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      console.log('Server response:', result.data);
+      setResponse(result.data.code);
+      setMessage('');
+    } catch (err) {
+      console.error('Axios error:', err.response?.data || err.message);
+      setError('An error occurred while processing your request.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [message]);
 
-            {/* AI válasz megjelenítése */}
-            {response && (
-                <div className="ai-response">
-                    <pre>{response}</pre>
-                </div>
-            )}
+  const handleInputChange = (e) => {
+    setMessage(e.target.value);
+    setError(null);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
+  return (
+    <div className="chat-container">
+      <input
+        type="text"
+        className="chat-input"
+        placeholder="Type your message..."
+        value={message}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
+        disabled={isLoading}
+      />
+
+      {isLoading && <div className="loading">Loading...</div>}
+      {error && <div className="error">{error}</div>}
+      {response && (
+        <div className="ai-response">
+          <pre>{response}</pre>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default HomePage;

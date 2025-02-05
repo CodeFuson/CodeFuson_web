@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import generate_code
 
 urlpatterns = [
-    path('generate-code/', views.generate_code, name='generate_code'),
+    path('generate-code/', generate_code, name='generate_code'),
 ]

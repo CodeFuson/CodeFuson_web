@@ -44,7 +44,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://yourfrontenddomain.com",  # Add your production frontend domain here
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False  # Disable this for production for better security
+CORS_ORIGIN_ALLOW_ALL = True # Disable this for production for better security
 
 # The root URL configuration for your Django app
 ROOT_URLCONF = "core.urls"
@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'codefuson_db',  # Name of your PostgreSQL database
         'USER': 'postgres',  # Database username
         'PASSWORD': 'postgres',  # Database password
-        'HOST': 'db',  # Database host (use 'localhost' for local development)
+        'HOST': 'localhost',  # Database host (use 'localhost' for local development)
         'PORT': '5432',  # PostgreSQL default port
     }
 }
@@ -130,5 +130,3 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React frontend development server URL
     "http://localhost:8000",
 ]
-
-CORS_ORIGIN_ALLOW_ALL = True   # Disable this in production for better security

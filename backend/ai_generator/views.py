@@ -1,18 +1,23 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import status
-from . import main
 
-
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
+@parser_classes([JSONParser])
 def generate_code(request):
-    try:
-        print("Beérkező adatok:", request.data)  # Debug log
-        prompt = request.data.get('prompt')
-        if not prompt:
-            return Response({'error': 'Prompt is required'}, status=status.HTTP_400_BAD_REQUEST)
-        generated_code = main(prompt)
-        return Response({'code': generated_code}, status=status.HTTP_200_OK)
-    except Exception as e:
-        print(f"Server Error: {e}")
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    if not request.data:
+        return Response(
+            {"error": "Request body is empty or not valid JSON"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    prompt = request.data.get('prompt')
+    if prompt:
+        generated_code = f"Generated code based on: {prompt}"
+        return Response({"code": generated_code}, status=status.HTTP_200_OK)
+    else:
+        return Response(
+            {"error": "Missing 'prompt' field in the request"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
