@@ -10,9 +10,9 @@ const HomePage = () => {
             const response = await fetch("http://localhost:8000/api/ai/generate-code/", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",  // Fontos a JSON formátumhoz!
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ prompt: inputText }),  // Küldött JSON objektum
+                body: JSON.stringify({ prompt: inputText }),
             });
 
             if (!response.ok) {
@@ -20,9 +20,9 @@ const HomePage = () => {
             }
 
             const data = await response.json();
-            console.log("Backend válasza:", data);
+            console.log("Backend :", data);
         } catch (error) {
-            console.error("Hiba történt:", error);
+            console.error("Error:", error);
         }
     };
 

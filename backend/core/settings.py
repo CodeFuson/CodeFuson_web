@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'codefuson_db',  # Name of your PostgreSQL database
         'USER': 'postgres',  # Database username
         'PASSWORD': 'postgres',  # Database password
-        'HOST': 'localhost',  # Database host (use 'localhost' for local development)
+        'HOST': 'db',  # Database host (use 'localhost' for local development)
         'PORT': '5432',  # PostgreSQL default port
     }
 }

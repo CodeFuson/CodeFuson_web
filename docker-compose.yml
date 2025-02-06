@@ -4,23 +4,27 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: docker/Dockerfile  # Itt adod meg a pontos elérési utat!
-    volumes:
-      - ./frontend/build:/app/frontend/build
+      dockerfile: docker/Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/codefuson_db
+    volumes:
+      - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build:
       context: ./frontend
-      dockerfile: docker/Dockerfile  # Itt is pontosítsd az útvonalat!
-    volumes:
-      - ./frontend:/app
+      dockerfile: docker/Dockerfile
     ports:
       - "3000:3000"
-    command: npm start
+    volumes:
+      - ./frontend:/app
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
 
   db:
     image: postgres:13
@@ -30,6 +34,11 @@ services:
       POSTGRES_DB: codefuson_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
