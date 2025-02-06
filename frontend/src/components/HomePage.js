@@ -1,73 +1,45 @@
-import React, { useState, useCallback } from 'react';
-import axios from 'axios';
-import '../assets/home_page.css';
-
-const API_ENDPOINT = 'http://localhost:8000/api/ai/generate-code/';
+import React, { useState } from 'react';
 
 const HomePage = () => {
-  const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [inputText, setInputText] = useState("");
 
-  const sendMessage = useCallback(async () => {
-    if (!message.trim()) {
-      setError('Please enter a valid message.');
-      return;
-    }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    setIsLoading(true);
-    setError(null);
-    try {
-      console.log('Sending data:', { prompt: message });
-      const result = await axios.post(
-        API_ENDPOINT,
-        { prompt: message },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      console.log('Server response:', result.data);
-      setResponse(result.data.code);
-      setMessage('');
-    } catch (err) {
-      console.error('Axios error:', err.response?.data || err.message);
-      setError('An error occurred while processing your request.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [message]);
+        try {
+            const response = await fetch("http://localhost:8000/api/ai/generate-code/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",  // Fontos a JSON formátumhoz!
+                },
+                body: JSON.stringify({ prompt: inputText }),  // Küldött JSON objektum
+            });
 
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-    setError(null);
-  };
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  };
+            const data = await response.json();
+            console.log("Backend válasza:", data);
+        } catch (error) {
+            console.error("Hiba történt:", error);
+        }
+    };
 
-  return (
-    <div className="chat-container">
-      <input
-        type="text"
-        className="chat-input"
-        placeholder="Type your message..."
-        value={message}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
-        disabled={isLoading}
-      />
-
-      {isLoading && <div className="loading">Loading...</div>}
-      {error && <div className="error">{error}</div>}
-      {response && (
-        <div className="ai-response">
-          <pre>{response}</pre>
+    return (
+        <div className="chat-container">
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    className="chat-input"
+                    placeholder="Type your message..."
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                />
+                <button type="submit">Submit</button>
+            </form>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default HomePage;
