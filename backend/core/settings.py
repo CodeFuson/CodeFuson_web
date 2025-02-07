@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY is used for cryptographic signing. Keep it secret in production.
-SECRET_KEY = "django-insecure-y%yhg9a=7!5t3yb(a+@266bqe%+2@rf++f9e-o$pjt0dk&yv%%"
+SECRET_KEY ="DJANGO_KEY"
 
 # DEBUG should be False in production.
 DEBUG = True
@@ -38,11 +38,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # CORS middleware for React
 ]
 
-# CORS settings to allow the frontend to communicate with the backend
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React development server URL (frontend)
-    "http://yourfrontenddomain.com",  # Add your production frontend domain here
-]
 
 CORS_ORIGIN_ALLOW_ALL = True # Disable this for production for better security
 
@@ -80,12 +75,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database settings (using PostgreSQL in this example, adjust as needed)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Database backend (PostgreSQL in this case)
-        'NAME': 'codefuson_db',  # Name of your PostgreSQL database
-        'USER': 'postgres',  # Database username
-        'PASSWORD': 'postgres',  # Database password
-        'HOST': 'db',  # Database host (use 'localhost' for local development)
-        'PORT': '5432',  # PostgreSQL default port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'codefuson_db'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
