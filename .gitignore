@@ -30,4 +30,4 @@ backend/requirements.txt
 
 projects
 
-.env
+.env.dev

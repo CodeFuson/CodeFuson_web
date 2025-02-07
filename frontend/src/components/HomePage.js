@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 const HomePage = () => {
     const [inputText, setInputText] = useState("");
@@ -6,13 +6,18 @@ const HomePage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (!inputText.trim()) {
+            alert("Prompt cannot be empty!");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:8000/api/ai/generate-code/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ prompt: inputText }),
+                body: JSON.stringify({prompt: inputText}),
             });
 
             if (!response.ok) {
@@ -20,11 +25,12 @@ const HomePage = () => {
             }
 
             const data = await response.json();
-            console.log("Backend :", data);
+            console.log("Backend:", data);
         } catch (error) {
             console.error("Error:", error);
         }
     };
+
 
     return (
         <div className="chat-container">

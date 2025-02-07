@@ -1,44 +1,59 @@
-version: '3.8'
+version: "3.8"
+
 
 services:
-  backend:
+  django:
     build:
       context: ./backend
       dockerfile: docker/Dockerfile
+    container_name: dev-django
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/codefuson_db
+    env_file:
+      - ./.env.dev
     volumes:
-      - ./backend:/app
+      - ./backend/:/srv/app
+      - static:/srv/app/static
+      - media:/srv/app/media
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
-  frontend:
+  react:
     build:
       context: ./frontend
       dockerfile: docker/Dockerfile
+    container_name: dev-react
+    command: npm start
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
+    env_file:
+      - ./.env.dev
+    tty: true
     environment:
-      - REACT_APP_API_URL=http://backend:8000
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend/:/srv/app
+      - node_modules:/srv/app/node_modules
+    depends_on:
+      - django
 
   db:
-    image: postgres:13
+    image: postgres:13.1-alpine
+    container_name: dev-db
+    hostname: db
+    ports:
+      - "5432:5432"
+    env_file: ./.env.dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: codefuson_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
 volumes:
+  node_modules:
   postgres_data:
+  media:
+  static:
