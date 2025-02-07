@@ -1,0 +1,51 @@
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+}
+
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+
+.chat-input {
+  width: 48vh;
+  padding: 15px 60px 15px 20px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.chat-input:focus {
+  border-color: #4CAF50;
+}
+
+.submit-button {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.submit-button:hover .submit-arrow {
+  fill: #45a049;
+}
+
+.submit-arrow {
+  width: 24px;
+  height: 24px;
+  fill: #4CAF50;
+}

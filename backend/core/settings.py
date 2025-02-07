@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY is used for cryptographic signing. Keep it secret in production.
-SECRET_KEY ="DJANGO_KEY"
+SECRET_KEY = "django-insecure-y%yhg9a=7!5t3yb(a+@266bqe%+2@rf++f9e-o$pjt0dk&yv%%"
 
 # DEBUG should be False in production.
 DEBUG = True

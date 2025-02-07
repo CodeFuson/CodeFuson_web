@@ -8,24 +8,28 @@ from .ai_engine.prompt_generator import generate_prompt
 from .ai_engine.ai_client import generate_code_from_ai
 
 def save_generated_project(generated_code):
-    projects_dir = os.path.join(os.getcwd(), "..", "projects")
-    if not os.path.exists(projects_dir):
-        os.makedirs(projects_dir)
+    try:
+        projects_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "projects")
+        if not os.path.exists(projects_dir):
+            os.makedirs(projects_dir)
 
-    existing_projects = [name for name in os.listdir(projects_dir)
-                         if os.path.isdir(os.path.join(projects_dir, name))]
-    next_project_number = len(existing_projects) + 1
-    project_folder_name = f"{next_project_number}_Projekt"
-    project_path = os.path.join(projects_dir, project_folder_name)
-    os.makedirs(project_path, exist_ok=True)
+        existing_projects = [name for name in os.listdir(projects_dir)
+                             if os.path.isdir(os.path.join(projects_dir, name)) and not name.startswith('.')]
+        next_project_number = len(existing_projects) + 1
+        project_folder_name = f"{next_project_number}_Projekt"
+        project_path = os.path.join(projects_dir, project_folder_name)
+        os.makedirs(project_path, exist_ok=True)
 
-    output_file = os.path.join(project_path, "generated_code.py")
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(generated_code)
+        output_file = os.path.join(project_path, "generated_code.py")
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(generated_code)
 
-    print(f"Generated project saved to: {project_path}")
-    return project_path
+        print(f"Generated project saved to: {project_path}")
+        return project_path
 
+    except Exception as e:
+        print(f"Error saving project: {e}")
+        raise e
 
 def main(prompt):
     component_directories = ["./components"]
