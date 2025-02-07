@@ -1,15 +1,17 @@
 import os
+
+from django.http.response import JsonResponse
 from dotenv import load_dotenv
 
 load_dotenv()
 
 from .ai_engine.faiss_index import load_components_to_faiss
-from .ai_engine.prompt_generator import generate_prompt
 from .ai_engine.ai_client import generate_code_from_ai
 
 def save_generated_project(generated_code):
     try:
-        projects_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "projects")
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        projects_dir = os.path.join(project_root, "projects")
         if not os.path.exists(projects_dir):
             os.makedirs(projects_dir)
 
@@ -41,16 +43,9 @@ def main(prompt):
 
     try:
         faiss_index = load_components_to_faiss(component_directories, index_name)
-        full_prompt = generate_prompt(prompt, faiss_index)
-        print("Generated Prompt:")
-        print(full_prompt)
-
         generated_code = generate_code_from_ai(prompt, faiss_index, api_key, base_url)
-        print("Generated Code:")
-        print(generated_code)
-
         save_generated_project(generated_code)
-        return generated_code
+        return JsonResponse({"code": generated_code})
 
     except Exception as e:
         print(f"Error in main: {e}")
