@@ -3,7 +3,9 @@ import os
 from django.http.response import JsonResponse
 from dotenv import load_dotenv
 
-from ai_generator.ai_engine.save_file import save_generated_react_code, generate_folder, install_react
+from ai_generator.generate_project.generate_folder import generate_folder
+from ai_generator.generate_project.install_react import install_react
+from ai_generator.generate_project.save_react_code import save_generated_react_code
 
 load_dotenv()
 
