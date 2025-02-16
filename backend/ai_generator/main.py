@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from ai_generator.generate_docker.generate_docker_compose import generate_docker_compose
 from ai_generator.generate_docker.generate_dockerfile import generate_dockerfile
 from ai_generator.generate_docker.install_frontend_dependencies import install_frontend_dependencies
-from ai_generator.generate_docker.run_docke import run_docker_compose
 
 from ai_generator.generate_project.generate_folder import generate_folder
 from ai_generator.generate_project.install_react import install_react
@@ -44,8 +43,6 @@ def main(prompt):
         # Ensure npm dependencies are installed in frontend folder
         install_frontend_dependencies(frontend_folder)
 
-        # Run the Docker container using docker-compose
-        return run_docker_compose(folder)
 
     except Exception as e:
         print(f"Error in main: {e}")

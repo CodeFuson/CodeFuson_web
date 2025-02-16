@@ -1,33 +1,14 @@
 import os
 
+from ai_generator.read_file import read_file
 
-def generate_dockerfile(frontend_folder):
-    dockerfile_content = """
-# Use Node.js image as base
-FROM node:16-slim
 
-# Set working directory
-WORKDIR /app
+def generate_dockerfile(frontend_folder: str, template_path: str = "ai_generator/template/Dockerfile-template"):
+    """Generates the Dockerfile from a template."""
+    dockerfile_content = read_file(template_path)
 
-# Copy package.json and install dependencies
-COPY package.json /app/
-RUN npm install
-
-# Install missing dependencies (like web-vitals)
-RUN npm install web-vitals
-
-# Copy all files to container
-COPY . /app/
-
-# Build the React app
-RUN npm run build
-
-# Expose the port
-EXPOSE 3000
-
-# Start the React app
-CMD ["npm", "start"]
-    """
-
-    with open(os.path.join(frontend_folder, "Dockerfile"), "w") as f:
+    output_path = os.path.join(frontend_folder, "Dockerfile")
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(dockerfile_content)
+
+    print(f"Dockerfile generated at: {output_path}")
